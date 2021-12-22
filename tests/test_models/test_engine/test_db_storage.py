@@ -106,8 +106,8 @@ class Test_DBStorage(unittest.TestCase):
             del cls.state
             del cls.city
             del cls.user
-            del cls.amenity
             del cls.place
+            del cls.amenity
             del cls.review
 
             """Closing Session
@@ -120,14 +120,14 @@ class Test_DBStorage(unittest.TestCase):
     def test_save(self):
         """Testing save method, by testing len query got."""
 
-        user = User(name="TestUser")
-        self.storage._DBStorage__session.add(user)
+        state = State(name="California")
+        self.storage._DBStorage__session.add(state)
         self.storage.save()
         db = MySQLdb.connect(user="hbnb_test",
                              passwd="hbnb_test_pwd",
                              db="hbnb_test_db")
         cursor = db.cursor()
-        cursor.execute("SELECT * FROM users WHERE name = 'TestUser'")
+        cursor.execute("SELECT * FROM states WHERE BINARY name = 'California'")
         query = cursor.fetchall()
         self.assertEqual(1, len(query))
         cursor.close()
