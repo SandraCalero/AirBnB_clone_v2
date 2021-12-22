@@ -1,10 +1,18 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
-from sqlalchemy import Column, String, ForeignKey, Integer, Float
+from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship
 import models
+from models.amenity import Amenity
 from models.base_model import Base, BaseModel
 import os
+
+place_amenity = Table('place_amenity', Base.metadata,
+                      Column('place_id', String(60), ForeignKey('places.id'),
+                             primary_key=True, nullable=False),
+                      Column('amenity_id', String(60),
+                             ForeignKey('amenities.id'),
+                             primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -23,6 +31,8 @@ class Place(BaseModel, Base):
 
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship('Review', backref='place', cascade='delete')
+        amenities = relationship('Amenity', secondary=place_amenity,
+                                 overlaps="place_amenities", viewonly=False)
     else:
         @property
         def reviews(self):
@@ -33,3 +43,23 @@ class Place(BaseModel, Base):
             reviews = models.storage.all(Review)
             return [instance for instance in reviews.values()
                     if self.id == instance.place_id]
+
+        @property
+        def amenities(self):
+            """Getter attribute amenities
+            Returns the list of Review instances with place_id equals to the
+            current Place.id
+            """
+            amenities = models.storage.all(Amenity)
+            return [instance for instance in amenities.values()
+                    if self.id == instance.amenity_ids]
+
+        @amenities.setter
+        def amenities(self, value):
+            """Setter attribute amenities
+
+            Args:
+                value ([Amenity]): amenity to be appended
+            """
+            if value.__class__.__name__ == Amenity:
+                self.amenities.append(value)
