@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" """
+"""Test module Amenity"""
 from models import amenity
 from tests.test_models.test_base_model import test_basemodel
 from models.amenity import Amenity
@@ -7,10 +7,10 @@ import pycodestyle
 
 
 class test_Amenity(test_basemodel):
-    """ """
+    """Test class amenity"""
 
     def __init__(self, *args, **kwargs):
-        """ """
+        """Constructor"""
         super().__init__(*args, **kwargs)
         self.name = "Amenity"
         self.value = Amenity
@@ -27,7 +27,7 @@ class test_Amenity(test_basemodel):
             self.assertTrue(len(method.__doc__) > 0)
 
     def test_pycodestyle(self):
-        """Test pycodestyle."""
+        """Test pycodestyle"""
         style = pycodestyle.StyleGuide(quiet=True)
         result = style.check_files(['models/amenity.py'])
         self.assertEqual(result.total_errors, 0,
