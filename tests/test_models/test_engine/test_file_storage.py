@@ -4,8 +4,12 @@ import unittest
 from models.base_model import BaseModel
 from models import storage
 import os
+import pycodestyle
+from models.engine import file_storage
+from models.engine.file_storage import FileStorage
 
 
+@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', 'skip if is db')
 class test_fileStorage(unittest.TestCase):
     """ Class to test the file storage method """
 
@@ -21,7 +25,7 @@ class test_fileStorage(unittest.TestCase):
         """ Remove storage file at end of tests """
         try:
             os.remove('file.json')
-        except:
+        except FileNotFoundError:
             pass
 
     def test_obj_list_empty(self):
@@ -31,7 +35,7 @@ class test_fileStorage(unittest.TestCase):
     def test_new(self):
         """ New object is correctly added to __objects """
         new = BaseModel()
-        for obj in storage.all().values():
+        for obj in new.storage.all().values():
             temp = obj
         self.assertTrue(temp is obj)
 
@@ -107,3 +111,16 @@ class test_fileStorage(unittest.TestCase):
         from models.engine.file_storage import FileStorage
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+    def testDocumentation(self):
+        """Check documentation"""
+        self.assertTrue(len(file_storage.__doc__) > 0)
+        for method in dir(FileStorage):
+            self.assertTrue(len(method.__doc__) > 0)
+
+    def test_pycodestyle(self):
+        """Test pycodestyle."""
+        style = pycodestyle.StyleGuide(quiet=True)
+        result = style.check_files(['models/engine/file_storage.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "Found code style errors (and warnings).")
