@@ -25,7 +25,7 @@ sudo chown -R ubuntu:ubuntu /data/
 
 # Update the Nginx configuration to serve the content of /data/web_static/current/ to hbnb_static
 file="/etc/nginx/sites-available/default"
-sudo sed -i "/server_name _;/a location /hbnb_static/ {\\n\\talias /data/web_static/current/;}" $file
+sudo sed -i "/listen 80 default_server;/a \\\n\\tlocation /hbnb_static {\\n\\t\\talias /data/web_static/current/;\\n\\t}" $file
 
 # Restart server
 sudo service nginx restart
