@@ -3,15 +3,16 @@
 # Install nginx
 sudo apt-get -y update
 sudo apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
+
+# Give ownership
+sudo chown -R ubuntu:ubuntu /data/
 
 # Create directories
 sudo mkdir -p /data/web_static/releases/test/
 sudo mkdir -p /data/web_static/shared/
 
 # Create a fake HTML file
-echo "<!DOCTYPE html>
-<html>
+echo "<html>
   <head>
   </head>
   <body>
@@ -21,9 +22,6 @@ echo "<!DOCTYPE html>
 
 # Create a symbolic link
 ln -fs /data/web_static/releases/test/ /data/web_static/current
-
-# Give ownership
-sudo chown -R ubuntu:ubuntu /data/
 
 # Update the Nginx configuration to serve the content of /data/web_static/current/ to hbnb_static
 file="/etc/nginx/sites-available/default"
