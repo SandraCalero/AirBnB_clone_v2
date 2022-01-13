@@ -3,7 +3,7 @@
 using the function do_deploy
 """
 from os.path import exists
-from fabric.api import *
+from fabric.api import put, run, env
 env.hosts = ['35.196.20.175', '52.23.183.91']
 env.user = 'ubuntu'
 
@@ -25,11 +25,11 @@ def do_deploy(archive_path):
     try:
         put(archive_path, "/tmp/")
         run("mkdir -p /data/web_static/releases/{}/".format(filename_woe))
-        run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/"
+        run("sudo tar -xzf /tmp/{} -C /data/web_static/releases/{}/"
             .format(filename_we, filename_woe))
-        run("rm -rf /tmp/{}".format(filename_we))
-        run("mv /data/web_static/releases/{}/web_static/* /data/\
-            web_static/releases/{}/".format(filename_woe, filename_woe))
+        run("rm /tmp/{}".format(filename_we))
+        run("sudo mv /data/web_static/releases/{}/web_static/* /data/web_sta\
+tic/releases/{}/".format(filename_woe, filename_woe))
         run("rm -rf /data/web_static/releases/{}/web_static"
             .format(filename_woe))
         run("rm -rf /data/web_static/current")
