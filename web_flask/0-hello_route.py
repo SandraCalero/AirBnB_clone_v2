@@ -7,6 +7,11 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'], strict_slashes=False)
 def displayHelloHBNB():
+    """Display 'Hello HBNB!'
+
+    Returns:
+        [string]: Hello HBNB!
+    """
     return 'Hello HBNB!'
 
 
