@@ -60,16 +60,14 @@ def display_n_is_a_number(n):
     return '{} is a number'.format(escape(n))
 
 
-@app.route('/number_template/<int:n>', strict_slashes=False)
-def display_template(n):
-    """Display a HTML page only if n is an integer. H1 tag: “Number: n”
-    inside the tag BODY
+@app.route('/number_template/<int:n>')
+def number_template(n):
+    """Render a page only if n is an integer
 
     Returns:
-        [string]: a HTML page only if n is an integer
+        [string]: “n is a number” only if n is an integer
     """
-    if type(n) is int:
-        return render_template('5-number.html', n=n)
+    return render_template('5-number.html', number=n)
 
 
 if __name__ == '__main__':
