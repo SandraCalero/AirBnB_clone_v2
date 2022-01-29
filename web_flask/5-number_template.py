@@ -68,7 +68,8 @@ def display_HTML(n: int):
     Returns:
         [string]: a HTML page only if n is an integer
     """
-    return render_template('5-number.html', n=n)
+    if type(n) is int:
+        return render_template('5-number.html', n=n)
 
 
 if __name__ == '__main__':
