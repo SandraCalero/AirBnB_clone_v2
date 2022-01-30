@@ -4,9 +4,17 @@ from flask import Flask, render_template
 from models import storage
 from models.state import State
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 
-@app.route('/cities_by_states', strict_slashes=False)
+@app.route("/states_list")
+def states_list():
+    """Render the list of the states"""
+    states = storage.all(State).values()
+    return render_template("7-states_list.html", states=states)
+
+
+@app.route('/cities_by_states')
 def cities_by_states():
     """Render the list of the states"""
     states = storage.all(State).values()
