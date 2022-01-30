@@ -14,7 +14,7 @@ def cities_by_states():
 
 
 @app.teardown_appcontext
-def teardown_db(self):
+def teardown_db(db):
     """Remove the current SQLAlchemy Session"""
     storage.close()
 
