@@ -7,6 +7,7 @@ import os
 import models
 from models.city import City
 
+
 if os.getenv('HBNB_TYPE_STORAGE') == 'db':
     class State(BaseModel, Base):
         """ State class """
@@ -17,6 +18,7 @@ else:
     class State(BaseModel):
         """ State class """
         name = ''
+
         @property
         def cities(self):
             """Get cities"""
