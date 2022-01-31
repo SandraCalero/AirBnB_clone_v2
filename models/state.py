@@ -8,16 +8,14 @@ import models
 from models.city import City
 
 
-if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-    class State(BaseModel, Base):
-        """ State class """
-        __tablename__ = "states"
-        name = Column(String(128), nullable=False)
-        cities = relationship('City', backref='state', cascade='delete')
+class State(BaseModel, Base):
+    """ State class """
+    __tablename__ = 'states'
+    name = Column(String(128), nullable=False)
 
-else:
-    class State(BaseModel):
-        """ State class """
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+        cities = relationship('City', backref='state', cascade='delete')
+    else:
         @property
         def cities(self):
             """Get cities"""
