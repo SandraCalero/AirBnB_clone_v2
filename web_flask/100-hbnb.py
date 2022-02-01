@@ -12,7 +12,9 @@ def hbnb():
     states = storage.all('State').values()
     cities = storage.all('City').values()
     amenities = storage.all('Amenity').values()
-    return render_template("100-hbnb.html", states=states, cities=cities, amenities=amenities)
+    places = storage.all('Place').values()
+    return render_template("100-hbnb.html", states=states, cities=cities,
+                           amenities=amenities, places=places)
 
 
 @app.teardown_appcontext
