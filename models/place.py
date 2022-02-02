@@ -29,9 +29,11 @@ if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         price_by_night = Column(Integer, default=0, nullable=False)
         latitude = Column(Float)
         longitude = Column(Float)
-        reviews = relationship('Review', backref='place', cascade='delete')
-        amenities = relationship('Amenity', secondary=place_amenity,
-                                 overlaps="place_amenities", viewonly=False)
+        reviews = relationship("Review", backref="place",
+                               cascade="all, delete, delete-orphan")
+        amenities = relationship('Amenity', secondary='place_amenity',
+                                 back_populates='place_amenities',
+                                 viewonly=False)
 else:
     class Place(BaseModel):
         """ A place to stay """
